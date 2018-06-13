@@ -1,5 +1,5 @@
 {
-  "name": "Hass.IO example add-on repository",
+  "name": "Parawebs Addons for Hass.IO",
   "url": "https://home-assistant.io/",
-  "maintainer": "HomeAssistant <info@home-assistant.io>"
+  "maintainer": "HomeAssistant <gerswin@parawebs.com>"
 }
