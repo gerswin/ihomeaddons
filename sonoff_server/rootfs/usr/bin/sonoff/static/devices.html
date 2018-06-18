@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Sonoff Server</title>
+    <!-- Required Stylesheets -->
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+    <!-- Required scripts -->
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <!-- Our application root element -->
+    <div id="app">
+        <b-container>
+            <b-jumbotron header="Sonoff Server" lead="config sonoff devices">
+            </b-jumbotron>
+            <div>
+                <b-card v-for="(device, index) in devices" :title="device.name" sub-title="">
+                    <p class="card-text">
+                        <b-button v-on:click="send([index])" variant="success">{{device.state}}</b-button>
+                    </p>
+                </b-card>
+            </div>
+        </b-container>
+    </div>
+    <!-- Start running your app -->
+    <script>
+    window.app = new Vue({
+        el: "#app",
+        data: {
+            name: '',
+            devices: [],
+            config: [{ name: "", type: "", outlet: 0 }, { name: "", type: "", outlet: 1 }, { name: "", type: "", outlet: 2 }, { name: "", type: "", outlet: 3 }],
+            selected: 1,
+            type: [],
+            firstRun: true,
+            options: [],
+            selectDevice: 2
+        },
+        computed: {
+            showAlert() {
+                return ""
+            },
+            ch() {
+                return parseInt(this.selected)
+            }
+        },
+        methods: {
+            send(i, idx) {
+                // (isMember ? '$2.00' : '$10.00')
+
+                //this.devices[i].state = (this.devices[i].state == true) ? 'on' : 'off'
+                let state = ""
+                //this.devices[i].state = (this.devices[i].state == true) ? 'on' : 'off'
+                if (this.firstRun) {
+                    this.devices[i].state = (this.devices[i].state == true) ? false : true;
+                    this.firstRun = false;
+                }
+
+                if (this.devices[i].state == true) {
+                    state = "on";
+                } else if (this.devices[i].state == false) {
+                    state = "off";
+                }
+
+                console.log(this.devices[i].state, state)
+                axios.get('/devices/' + this.devices[i].device + "/" + this.devices[i].outlet + "/" + state)
+                this.devices[i].state = (this.devices[i].state == true) ? false : true
+
+
+            },
+            saveConfig() {
+                let that = this
+                var t = new Object;
+                t[this.selectDevice] = this.config.slice(0, this.selected)
+                console.log(JSON.stringify(t))
+                axios.post('/savecnf', t)
+                    .then(function(response) {
+                        console.log(response);
+                        that.config = [{ name: "", type: "", outlet: 0 }, { name: "", type: "", outlet: 1 }, { name: "", type: "", outlet: 2 }, { name: "", type: "", outlet: 3 }]
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            },
+
+        },
+        mounted() {
+            let that = this
+            axios.get('/homekit')
+                .then(function(response) {
+                    //that.devices = response.data
+                    let ite = response.data
+                    console.log(response)
+                    Object.keys(ite).forEach(function(item) {
+                        that.devices.push(ite[item])
+                    });
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+    })
+    </script>
+    <style type="text/css">
+    .card {
+        margin-bottom: 20px;
+    }
+
+    ,
+    .btn-success {
+        margin: 20px !important;
+    }
+    </style>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+ .card {
+        margin-bottom: 20px;
+    }
+
+    body {
+        background: rgb(96%, 95%, 94%);
+    }
+
+    #main-content {
+        background: rgb(100%, 100%, 100%);
+        min-height: 40vh;
+    }
+
+    aside {
+        max-height: 400px;
+    }
+
+    ul li {
+        list-style: none;
+        margin-top: 5%;
+        color: rgb(71%, 73%, 75%);
+    }
+
+    ul li a {
+        color: rgb(71%, 73%, 75%);
+    }
+
+    ul li a:hover {
+        color: rgb(0%, 48%, 100%);
+        text-decoration: none;
+    }
+
+    .active {
+        color: rgb(0%, 48%, 100%);
+    }
+
+    .fa {
+        margin-right: 5%;
+    }
+
+
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        padding-left: 4%;
+    }
+
+    .input-group-text {
+        min-width: 100px;
+    }
+
+    form {
+        padding-top: 4%;
+        padding-bottom: 4%;
+    }
+
+    .slidecontainer {}
+
+    .slider {
+        cursor: pointer;
+    }
+
+    .radio-input {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .radio-input-label {
+        margin-left: 30px;
+    }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Sonoff Server</title>
+    <!-- Required Stylesheets -->
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+    <!-- Required scripts -->
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <!-- Our application root element -->
+    <div id="app">
+        <b-container>
+            <b-jumbotron header="Sonoff Server" lead="config sonoff devices">
+                <b-form-group label="Selecciona el Dispositivo">
+                    <b-form-select v-model="selectDevice" :options="options" class="mb-3" />
+                </b-form-group>
+            </b-jumbotron>
+            <div v-show="selectDevice != null">
+                <b-card title="Informacion de Dispositivos" sub-title="">
+                    <p class="card-text">
+                        <h3>ID: {{selectDevice}}  </h3>
+                        <b-form-group label="Selecciona los Canales" v-show="selectDevice != 'mqtt'">
+                            <b-form-radio-group id="radios2" v-model="selected" name="chNum">
+                                <b-form-radio value="2">2 CH</b-form-radio>
+                                <b-form-radio value="3">3 CH</b-form-radio>
+                                <b-form-radio value="4">4 CH</b-form-radio>
+                            </b-form-radio-group>
+                        </b-form-group>
+                        <b-form-group id="ch" label="Nombre del Canal:" label-for="exampleInput1" description="Nompre para el Canal." v-for="(ch, index) in ch">
+                            <b-form-input id="exampleInput1" type="text" v-model="config[index].name" required placeholder="Nombre del Canal: EJ Luz Cocina">
+                            </b-form-input>
+                            <p>Service: {{config[index].service}}</p>
+                            <b-form-group label="">
+                                <b-form-radio-group id="radios1" v-model="config[index].service" name="radioType">
+                                    <b-form-radio value="Lightbulb">Luz</b-form-radio>
+                                    <b-form-radio value="Switch">Swich</b-form-radio>
+                                    <b-form-radio value="GarageDoorOpener">Garage Door</b-form-radio>
+                                    <b-form-radio value="WindowCovering">Cortina</b-form-radio>
+                                </b-form-radio-group>
+                                <br>
+                                <br>                               
+                            </b-form-group>
+                            </b-form-group>
+                    </p>
+                    <b-button v-on:click="saveConfig()">Guardar</b-button>
+                </b-card>
+            </div>
+        </b-container>
+    </div>
+    <!-- Start running your app -->
+    <script>
+    window.app = new Vue()
+    </script>
+    <style type="text/css">
+    .card {
+        margin-bottom: 20px;
+    }
+    </style>
+</body>
+
+</html>

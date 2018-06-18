@@ -1,0 +1,36 @@
+{
+    "name": "sonoff-server",
+    "version": "10",
+    "slug": "sonoff-server",
+    "description": "Sonoff Server Hass.IO",
+    "url": "https://github.com/gerswin/ihomeaddons",
+    "startup": "application",
+    "arch": [
+        "aarch64",
+        "amd64",
+        "armhf",
+        "i386"
+    ],
+    "boot": "auto",
+    "hassio_api": true,
+    "homeassistant_api": true,
+    "host_network": true,
+    "privileged": [],
+    "map": [
+        "config:rw",
+        "ssl"
+    ],
+
+    "options": {
+        "log_level": "info"
+    },
+    "schema": {
+        "log_level": "match(^(trace|debug|info|notice|warning|error|fatal)$)"
+    },
+    "ports": {
+        "1081/tcp": 1081,
+        "1080/tcp": 1080,
+        "1082/tcp": 1082,
+        "1083/tcp": 1083
+    }
+}
