@@ -48,13 +48,13 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
-    maintainer="Franck Nijhof <frenck@addons.community>" \
+    maintainer="Gerswin <gerswin@parawebs.com>" \
     org.label-schema.description="Sonoff devices for Home Assistant" \
     org.label-schema.build-date=${BUILD_DATE} \
     org.label-schema.name="Sonoff" \
     org.label-schema.schema-version="1.0" \
-    org.label-schema.url="https://community.home-assistant.io/t/community-hass-io-add-on-homebridge/33803?u=frenck" \
-    org.label-schema.usage="https://github.com/hassio-addons/addon-homebridge/tree/master/README.md" \
+    org.label-schema.url="" \
+    org.label-schema.usage="https://github.com/gerswin/ihomeaddons/blob/master/sonoff_server/README.md" \
     org.label-schema.vcs-ref=${BUILD_REF} \
     org.label-schema.vcs-url="https://github.com/gerswin/ihomeaddons" \
     org.label-schema.vendor="gerswin Hass.io Add-ons"
