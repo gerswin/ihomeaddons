@@ -26,20 +26,20 @@
     <div id="app">
         <div class="container">
             <div class="row bg-dark mb-4 my-4 text-white">
-                <h2>Portal Dispositivos</h2>
+                <h2>Devices</h2>
             </div>
             <div class="row">
                 <!-- side nav-->
                 <aside class="col-sm-6 col-md-3 card  my-4">
                     <br>
-                    <h3>Hogar</h3>
+                    <h3>Home</h3>
                     <hr/>
                     <ul>
                         <li>
-                            <router-link class="active" to="/"><span class="fa fa-gear"></span>Agergar</router-link>
+                            <router-link class="active" to="/"><span class="fa fa-gear"></span>Add</router-link>
                         </li>
                         <li>
-                            <router-link class="" to="/list"><span class="fa fa-gear"></span>Dispositivos</router-link>
+                            <router-link class="" to="/list"><span class="fa fa-gear"></span>Devices</router-link>
                         </li>
                     </ul>
                 </aside>
@@ -56,41 +56,45 @@
 
               <div>
               <br>
+               <b-button v-on:click="gentStatic()">GenStatic</b-button>
               <br>
              <b-container>
-                <b-form-group label="Selecciona el Dispositivo">
+                <b-form-group label="Select Device">
                     <b-form-select v-model="selectDevice" :options="options" class="mb-3" />
                 </b-form-group>
             <div v-show="selectDevice != null">
 
                     <h3>ID: {{selectDevice}}  </h3>
                     <br>
-                <b-card title="Informacion de Dispositivos" sub-title="">
+                <b-card title="Device Info" sub-title="">
                     <p class="card-text">
 
-                        <b-form-group label="Selecciona los Canales" v-show="selectDevice != 'mqtt'">
+                        <b-form-group label="How many channels" v-show="selectDevice != 'mqtt'">
                             <b-form-radio-group id="radios2" v-model="selected" name="chNum">
                                 <b-form-radio value="2">2 CH</b-form-radio>
                                 <b-form-radio value="3">3 CH</b-form-radio>
                                 <b-form-radio value="4">4 CH</b-form-radio>
                             </b-form-radio-group>
                         </b-form-group>
-                        <b-form-group id="ch" label="Nombre del Canal:" label-for="exampleInput1" description="Nompre para el Canal." v-for="(ch, index) in ch">
-                            <b-form-input id="exampleInput1" type="text" v-model="config[index].name" required placeholder="Nombre del Canal: EJ Luz Cocina">
-                            </b-form-input>
+                        <b-form-group id="ch" label="Channel Name:" label-for="exampleInput1" description="Name for channel." v-for="(ch, index) in ch">
+
+                            <b-form-input id="exampleInput1" type="text" v-model="config[index].name" required placeholder="Channel name: EJ kitchen light">
+                            </b-form-input><br>
+                                 <b-button v-on:click="testDrive(index,selectDevice)">Test Channel</b-button>
+                                <br>
                             <p>Service: {{config[index].service}}</p>
                             <b-form-group label="">
                                 <b-form-radio-group id="radios1" v-model="config[index].service" name="radioType">
-                                    <b-form-radio value="Lightbulb">Luz</b-form-radio>
+                                    <b-form-radio value="Lightbulb">Light</b-form-radio>
                                     <b-form-radio value="Switch">Swich</b-form-radio>
                                     <b-form-radio value="GarageDoorOpener">Garage Door</b-form-radio>
-                                    <b-form-radio value="WindowCovering">Cortina</b-form-radio>
-                                </b-form-radio-group>
+                                    <b-form-radio value="Window">Window Cover</b-form-radio>
+                                </b-form-radio-group>                        
                                 <br>
                             </b-form-group>
                             </b-form-group>
                     </p>
-                    <b-button v-on:click="saveConfig()">Guardar</b-button>
+                    <b-button v-on:click="saveConfig()">Save</b-button>
                 </b-card>
             </div>
         </b-container>
@@ -125,6 +129,9 @@
                 }
                 return s4() + s4() + s4();
             },
+            gentStatic(){
+                axios.get('/genstatic')
+            }
             findObjectByKey(array, key, value) {
                 for (var i = 0; i < array.length; i++) {
                     if (array[i][key] === value) {
@@ -133,7 +140,23 @@
                 }
                 return null;
             },
+            testDrive(inx, device) {
+                console.log(inx, device)
+                console.log("on")
+                axios.get('/devices/' + device + '/' + inx + '/on')
+                    .then(function(response) {})
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                setTimeout(function() {
+                    axios.get('/devices/' + device + '/' + inx + '/off')
+                        .then(function(response) {})
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                }, 3000);
 
+            },
             saveConfig() {
                 let that = this
                 var t = new Object;
@@ -169,29 +192,12 @@
 
                     response.data.forEach(function(item) {
                         that.devices.push(item)
-                        that.options.push({ value: item.id, text: item.id + " | " + (item.register ? "Registrado" : "No Registrado") + " | " + item.type, type: item.type })
+                        that.options.push({ value: item.id, text: item.id })
                     })
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
-
-            // axios.get('/devicesmqtt')
-            //     .then(function(response) {
-            //         response.data.forEach(function(item) {
-            //             if (item.name != undefined) {
-            //                 that.devices.push(item)
-            //                 that.options.push({ value: item.name, text: item.name + " | " + (item.register ? "Registrado" : "No Registrado") + " | " + item.type, type: item.type })
-            //             }
-
-            //         })
-            //     })
-            //     .catch(function(error) {
-            //         console.log(error);
-            //     });
-
-
-
         }
     })
     var listDevices = Vue.component('manage-posts', {
@@ -236,24 +242,11 @@
         },
         methods: {
             send(i, idx) {
-                // (isMember ? '$2.00' : '$10.00')
 
-                //this.devices[i].state = (this.devices[i].state == true) ? 'on' : 'off'
-                let state = ""
-                //this.devices[i].state = (this.devices[i].state == true) ? 'on' : 'off'
-                if (this.firstRun) {
-                    this.devices[i].state = (this.devices[i].state == true) ? false : true;
-                    this.firstRun = false;
-                }
+                let state = (this.devices[i].state == true) ? false : true
+                axios.get('/devices/' + this.devices[i].device + '/' + this.devices[i].outlet + '/' + state)
 
-                if (this.devices[i].state == true) {
-                    state = "on";
-                } else if (this.devices[i].state == false) {
-                    state = "off";
-                }
-
-                console.log(this.devices[i].state, state)
-                axios.get('/v2/devices/' + (this.devices[i].type == "sonoff" ? this.devices[i].device : this.devices[i].uid) + "/" + this.devices[i].outlet + "/" + state + "/" + this.devices[i].type)
+                // axios.get('/devices/' + (this.devices[i].type == "sonoff" ? this.devices[i].device : this.devices[i].uid) + "/" + this.devices[i].outlet + "/" + state)
                 this.devices[i].state = (this.devices[i].state == true) ? false : true
 
 
@@ -262,7 +255,6 @@
                 let that = this
                 var t = new Object;
                 t[this.selectDevice] = this.config.slice(0, this.selected)
-                console.log(JSON.stringify(t))
                 axios.post('/savecnf', t)
                     .then(function(response) {
                         console.log(response);
@@ -276,11 +268,10 @@
         },
         mounted() {
             let that = this
-            axios.get('/homekit')
+            axios.get('/hadevices')
                 .then(function(response) {
                     //that.devices = response.data
                     let ite = response.data
-                    console.log(response)
                     Object.keys(ite).forEach(function(item) {
                         that.devices.push(ite[item])
                     });

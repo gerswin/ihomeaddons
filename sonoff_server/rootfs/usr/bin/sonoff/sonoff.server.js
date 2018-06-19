@@ -6,9 +6,13 @@ var server = express();
 var bodyParser = require('body-parser')
 var http = require('http');
 
-const configFile = '/config/sonoff.config.json'
-const deviceFile = '/config/sonoff.devices.json'
-const devicesHaFile = '/config/sonoff.ha.json'
+// const configFile = '/config/sonoff.config.json'
+// const deviceFile = '/config/sonoff.devices.json'
+// const devicesHaFile = '/config/sonoff.ha.json'
+
+const configFile = './sonoff.config.json'
+const deviceFile = './sonoff.devices.json'
+const devicesHaFile = './sonoff.ha.json'
 var config;
 try {
     config = JSON.parse(fs.readFileSync(path.resolve(__dirname, configFile)));
@@ -125,6 +129,11 @@ server.post('/savecnf', function(req, res) {
         // throws an error, you could also catch it here
         if (err) throw err;
     });
+    res.send(req.body); // echo the result back
+});
+
+server.get('/genstatic', function(req, res) {
+    var configDevices = JSON.parse(fs.readFileSync(deviceFile));
     try {
         var configDevices = JSON.parse(fs.readFileSync(deviceFile))
         let d = []
@@ -139,7 +148,7 @@ server.post('/savecnf', function(req, res) {
     } catch (error) {
 
     }
-    res.send(req.body); // echo the result back
+    res.send(200); // echo the result back
 });
 
 //switch on or off based on device outlet 
@@ -153,11 +162,13 @@ server.get('/devices/:deviceId/:outlet/:state', function(req, res) {
         switch (req.params.state.toUpperCase()) {
             case "1":
             case "ON":
+            case "TRUE":
                 res.sendStatus(200);
                 devices.turnOnOutlet(req.params.deviceId, outlet);
                 break;
             case "0":
             case "OFF":
+            case "FALSE":
                 res.sendStatus(200);
                 devices.turnOffOutlet(req.params.deviceId, outlet);
                 break;
