@@ -133,23 +133,33 @@ server.post('/savecnf', function(req, res) {
 });
 
 server.get('/genstatic', function(req, res) {
-    var configDevices = JSON.parse(fs.readFileSync(deviceFile));
+    ind = 1
     try {
+        let cnf = []
         var configDevices = JSON.parse(fs.readFileSync(deviceFile))
-        let d = []
-        Object.keys(configDevices).forEach(function(item) {
-            configDevices[item]['state'] = configDevices[item]['state'] == 'on' ? true : false
-            d.push(configDevices[item])
-        });
-        fs.writeFile(devicesHaFile, JSON.stringify(d[0]), (err) => {
-        // throws an error, you could also catch it here
-        if (err) throw err;
-    });
-    } catch (error) {
+        var dev = devices.getConnectedDevices()
+        dev.forEach(function(item) {
+            if (item.id in configDevices) {
+                configDevices[item.id].forEach(function(i, idx) {
+                    i['state'] = item.state[idx].switch == 'on' ? true : false
+                    ind = ind + 1
+                    i['intID'] = ind
+                    cnf.push(i)
+                })
+            }
+        })
 
+        fs.writeFile(devicesHaFile, JSON.stringify(d[0]), (err) => {
+            // throws an error, you could also catch it here
+            if (err) throw err;
+        });
+        res.json(cnf) // echo the result back
+    } catch (error) {
+        console.log(error);
+        res.json({ status: false, error: error }) // echo the result back
     }
-    res.send(200); // echo the result back
 });
+
 
 //switch on or off based on device outlet 
 server.get('/devices/:deviceId/:outlet/:state', function(req, res) {
@@ -178,20 +188,6 @@ server.get('/devices/:deviceId/:outlet/:state', function(req, res) {
     }
 });
 
-server.get('/hadevicessetup', function(req, res) {
-    try {
-        var configDevices = JSON.parse(fs.readFileSync(deviceFile))
-        let d = []
-        Object.keys(configDevices).forEach(function(item) {
-            configDevices[item]['state'] = configDevices[item]['state'] == 'on' ? true : false
-            d.push(configDevices[item])
-        });
-        res.json(d[0]) // echo the result back
-    } catch (error) {
-        throw error
-        res.json({ status: false, error: error }) // echo the result back
-    }
-})
 server.get('/hadevices', function(req, res) {
     ind = 1
     try {

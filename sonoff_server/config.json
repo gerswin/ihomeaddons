@@ -1,6 +1,6 @@
 {
     "name": "Sonoff Home Server",
-    "version": "16",
+    "version": "17",
     "slug": "sonoff-server",
     "description": "Sonoff Server Hass.IO",
     "url": "https://github.com/gerswin/ihomeaddons",
