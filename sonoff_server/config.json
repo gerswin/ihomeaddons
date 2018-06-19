@@ -23,10 +23,13 @@
     ],
 
     "options": {
-        "log_level": "info"
+        "log_level": "info",
+            "ssl": false,
+
     },
     "schema": {
-        "log_level": "match(^(trace|debug|info|notice|warning|error|fatal)$)"
+        "log_level": "match(^(trace|debug|info|notice|warning|error|fatal)$)",
+         "ssl": "bool",
     },
     "ports": {
         "1081/tcp": 1081,
