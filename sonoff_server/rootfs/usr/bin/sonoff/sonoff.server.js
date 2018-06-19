@@ -149,7 +149,7 @@ server.get('/genstatic', function(req, res) {
             }
         })
 
-        fs.writeFile(devicesHaFile, JSON.stringify(d[0]), (err) => {
+        fs.writeFile(devicesHaFile, JSON.stringify(cnf), (err) => {
             // throws an error, you could also catch it here
             if (err) throw err;
         });
