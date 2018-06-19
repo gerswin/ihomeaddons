@@ -22,11 +22,10 @@
     ],
 
     "options": {
-        "log_level": "info",
-
+        "log_level": "info"
     },
     "schema": {
-        "log_level": "match(^(trace|debug|info|notice|warning|error|fatal)$)",
+        "log_level": "match(^(trace|debug|info|notice|warning|error|fatal)$)"
     },
     "ports": {
         "1081/tcp": 1081,
