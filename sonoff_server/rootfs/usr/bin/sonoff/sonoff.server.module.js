@@ -1,6 +1,8 @@
-module.exports.createServer = function (config) {
+module.exports.createServer = function(config) {
     const CONNECTION_IS_ALIVE_CHECK_INTERVAL = 30000;
-   
+    const configFile = './sonoff.config.json'
+    const deviceFile = './sonoff.devices.json'
+    const devicesHaFile = './sonoff.ha.json'
     const fs = require('fs');
     const path = require('path');
     const ws = require("nodejs-websocket");
@@ -115,12 +117,12 @@ module.exports.createServer = function (config) {
 
     var httpsServer = https.createServer(credentials, server);
 
-    httpsServer.listen(config.server.httpsPort, function () {
+    httpsServer.listen(config.server.httpsPort, function() {
         log.log('SONOFF Server Started On Port %d', config.server.httpsPort);
     });
 
     // Register routes
-    server.post('/dispatch/device', function (req, res) {
+    server.post('/dispatch/device', function(req, res) {
         log.log('REQ | %s | %s ', req.method, req.url);
         log.trace('REQ | %s', JSON.stringify(req.body));
         res.json({
@@ -132,7 +134,7 @@ module.exports.createServer = function (config) {
     });
 
     // Register routes
-    server.get('/', function (req, res) {
+    server.get('/', function(req, res) {
         log.log('REQ | %s | %s ', req.method, req.url);
         res.send('OK');
     });
@@ -146,10 +148,10 @@ module.exports.createServer = function (config) {
         cert: config.server.certificate
     };
 
-    const wsServer = ws.createServer(wsOptions, function (conn) {
+    const wsServer = ws.createServer(wsOptions, function(conn) {
         log.log("WS | Server is up %s:%s to %s:%s", config.server.IP, config.server.websocketPort, conn.socket.remoteAddress, conn.socket.remotePort);
 
-        conn.on("text", function (str) {
+        conn.on("text", function(str) {
             var data = JSON.parse(str);
             log.trace('REQ | WS | DEV | %s', JSON.stringify(data));
             res = {
@@ -217,7 +219,9 @@ module.exports.createServer = function (config) {
                         state.updateKnownDevice(device);
                         log.log('INFO | WS | Device %s registered', device.id);
                         break;
-                    default: log.error('TODO | Unknown action "%s"', data.action); break;
+                    default:
+                        log.error('TODO | Unknown action "%s"', data.action);
+                        break;
                 }
             } else {
                 if (data.sequence && data.deviceid) {
@@ -228,7 +232,7 @@ module.exports.createServer = function (config) {
                         if (device.messages) {
                             var message = device.messages.find(item => item.sequence == data.sequence);
                             if (message) {
-                                device.messages = device.messages.filter(function (item) {
+                                device.messages = device.messages.filter(function(item) {
                                     return item !== message;
                                 })
                                 device.state = message.params.switch;
@@ -249,7 +253,7 @@ module.exports.createServer = function (config) {
             log.trace('RES | WS | DEV | ' + r);
             conn.sendText(r);
         });
-        conn.on("close", function (code, reason) {
+        conn.on("close", function(code, reason) {
             log.log("Connection closed: %s (%d)", reason, code);
             state.knownDevices.forEach((device, index) => {
                 if (device.conn != conn)
@@ -260,7 +264,7 @@ module.exports.createServer = function (config) {
                 device.conn = undefined;
             });
         });
-        conn.on("error", function (error) {
+        conn.on("error", function(error) {
             log.error("Connection error: ", error);
         });
     }).listen(config.server.websocketPort);
@@ -292,17 +296,32 @@ module.exports.createServer = function (config) {
             state.pushMessage({ action: 'update', value: { switch: "off" }, target: deviceId });
             return "off";
         },
-        turnOnOutlet: (deviceId,outlet) => {
+        turnOnOutlet: (deviceId, outlet) => {
             var d = state.getDeviceById(deviceId);
             if (!d || (typeof d.conn == 'undefined')) return "disconnected";
             state.pushMessage({ action: 'update', value: { switch: "on" }, outlet: outlet, target: deviceId });
             return "on";
         },
-        turnOffOutlet: (deviceId,outlet) => {
+        turnOffOutlet: (deviceId, outlet) => {
             var d = state.getDeviceById(deviceId);
             if (!d || (typeof d.conn == 'undefined')) return "disconnected";
             state.pushMessage({ action: 'update', value: { switch: "off" }, outlet: outlet, target: deviceId });
             return "on";
+        },
+        onOrOffByUid: (uid, action) => {
+            let cnf = []
+            var configDevices = JSON.parse(fs.readFileSync(deviceFile));
+            var dev = state.knownDevices.map(x => { return { id: x.id, state: x.state, rawMessageLastUpdate: x.rawMessageLastUpdate } })
+            dev.forEach(function(item) {
+                if (item.id in configDevices) {
+                    configDevices[item.id].forEach(function(i, idx) {
+                        if (uid == i.uid) {
+                            var d = state.getDeviceById(i.device);
+                            state.pushMessage({ action: 'update', value: { switch: action }, outlet: i.outlet, target: d.id });
+                        }
+                    })
+                }
+            })
         },
         registerOnDeviceConnectedListener: (deviceId, listener) => {
             addDeviceListener(state.listeners.onDeviceConnectedListeners, deviceId, listener);
