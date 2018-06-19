@@ -57,7 +57,7 @@
               <div>
               <br>
                <b-button v-on:click="gentStatic()">GenStatic</b-button>
-              <br>
+              <br> <br>
              <b-container>
                 <b-form-group label="Select Device">
                     <b-form-select v-model="selectDevice" :options="options" class="mb-3" />
@@ -131,7 +131,7 @@
             },
             gentStatic(){
                 axios.get('/genstatic')
-            }
+            },
             findObjectByKey(array, key, value) {
                 for (var i = 0; i < array.length; i++) {
                     if (array[i][key] === value) {
