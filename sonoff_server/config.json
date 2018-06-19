@@ -1,5 +1,5 @@
 {
-    "name": "sonoff-server",
+    "name": "Sonoff Home Server",
     "version": "15",
     "slug": "sonoff-server",
     "description": "Sonoff Server Hass.IO",
