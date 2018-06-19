@@ -23,6 +23,7 @@ source /usr/lib/hassio-addons/base.sh
 # Returns:
 #   String with the quote
 # ------------------------------------------------------------------------------
+cp 
 pm2 status
 npm install /usr/bin/sonoff
 echo "Sonoff Server Start"

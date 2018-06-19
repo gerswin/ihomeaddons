@@ -6,7 +6,20 @@ var server = express();
 var bodyParser = require('body-parser')
 var http = require('http');
 
-const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, './sonoff.config.json')));
+const configFile = '/config/sonoff.config.json'
+const deviceFile = '/config/sonoff.devices.json'
+const devicesHaFile = '/config/sonoff.ha.json'
+var config;
+try {
+    config = JSON.parse(fs.readFileSync(path.resolve(__dirname, configFile)));
+} catch (err) {
+    fs.createReadStream('./config/sonoff.config.json').pipe(fs.createWriteStream(configFile));
+    fs.createReadStream('./config/sonoff.devices.json').pipe(fs.createWriteStream(deviceFile));
+    config = JSON.parse(fs.readFileSync(path.resolve(__dirname, './config/sonoff.config.json')));
+    console.log("Please check /config folder for sonoff.config.json and restart the addon")
+}
+
+
 
 config.logger = {
     log: console.log,
@@ -100,20 +113,32 @@ server.get('/devices', function(req, res) {
 
 
 /// HA Routines
-const devicesPath = 'devices.json';
 
 // save name for every outlet
 server.post('/savecnf', function(req, res) {
-    var configDevices = JSON.parse(fs.readFileSync(devicesPath));
+    var configDevices = JSON.parse(fs.readFileSync(deviceFile));
     let cnf = req.body
     Object.keys(req.body).forEach(function(item) {
         configDevices[item] = cnf[item]
     });
-    fs.writeFile(devicesPath, JSON.stringify(configDevices), (err) => {
+    fs.writeFile(deviceFile, JSON.stringify(configDevices), (err) => {
         // throws an error, you could also catch it here
         if (err) throw err;
     });
+    try {
+        var configDevices = JSON.parse(fs.readFileSync(deviceFile))
+        let d = []
+        Object.keys(configDevices).forEach(function(item) {
+            configDevices[item]['state'] = configDevices[item]['state'] == 'on' ? true : false
+            d.push(configDevices[item])
+        });
+        fs.writeFile(devicesHaFile, JSON.stringify(d[0]), (err) => {
+        // throws an error, you could also catch it here
+        if (err) throw err;
+    });
+    } catch (error) {
 
+    }
     res.send(req.body); // echo the result back
 });
 
@@ -144,7 +169,7 @@ server.get('/devices/:deviceId/:outlet/:state', function(req, res) {
 
 server.get('/hadevicessetup', function(req, res) {
     try {
-        var configDevices = JSON.parse(fs.readFileSync(devicesPath))
+        var configDevices = JSON.parse(fs.readFileSync(deviceFile))
         let d = []
         Object.keys(configDevices).forEach(function(item) {
             configDevices[item]['state'] = configDevices[item]['state'] == 'on' ? true : false
@@ -160,7 +185,7 @@ server.get('/hadevices', function(req, res) {
     ind = 1
     try {
         let cnf = []
-        var configDevices = JSON.parse(fs.readFileSync(devicesPath))
+        var configDevices = JSON.parse(fs.readFileSync(deviceFile))
         var dev = devices.getConnectedDevices()
         dev.forEach(function(item) {
             if (item.id in configDevices) {

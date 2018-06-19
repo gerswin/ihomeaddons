@@ -30,9 +30,7 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
-COPY sonoff.config.json /config/
-COPY sonoff.devices.json /config/
-COPY sonoff.ha.devices.json /config/
+
 
 # Scrip to run after startup
 CMD [ "/usr/bin/run.sh" ]
