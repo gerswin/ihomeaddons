@@ -9,6 +9,7 @@
     "fs-writefile-promise": "^3.0.0",
     "http": "^0.0.0",
     "https": "^1.0.0",
+    "lokijs": "^1.5.5",
     "nodejs-websocket": "^1.7.1",
     "request": "^2.87.0",
     "url": "^0.11.0",

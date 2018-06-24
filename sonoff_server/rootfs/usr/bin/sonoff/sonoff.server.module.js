@@ -7,6 +7,9 @@ module.exports.createServer = function(config) {
     const path = require('path');
     const ws = require("nodejs-websocket");
     const log = config.logger;
+    const lokijs = require('lokijs');
+    const db = new lokijs("/config/sonoff.db.json");
+    const devicesDb = db.addCollection('devices');
 
     if (config.server.privateKey === undefined)
         config.server.privateKey = fs.readFileSync(path.resolve(__dirname, './certs/server.key'));
@@ -25,24 +28,59 @@ module.exports.createServer = function(config) {
     };
 
     // device in der liste finden
+
     state.getDeviceById = (deviceId) => {
+
         return state.knownDevices.find(d => d.id == deviceId);
     };
 
     state.updateKnownDevice = (device) => {
         var updated = false;
+        var knownDevices = state.knownDevices;
+        try {
+            var updated = false;
+            for (var i = 0; i < knownDevices.length; i++) {
+                if (knownDevices[i].id == device.id) {
 
+                    if (device.state != undefined) {
+                        knownDevices[i] = device;
+                        var results = devicesDb.findOne({ 'device': device.id });
+                        results.state = device.state;
+                        devicesDb.update(results);
+
+                    }
+                    updated = true;
+                }
+            }
+            if (!updated) {
+                knownDevices.push(device);
+                if (device.hasOwnProperty('state')) {
+                    devicesDb.insert({ state: device.state, device: device.id, rssi: device.rssi, model: device.model, version: device.version })
+                } else {
+                    devicesDb.insert({ state: [], device: device.id, rssi: device.rssi, model: device.model, version: device.version })
+                }
+
+            }
+        } catch (e) {
+            //console.log(e)
+        }
+
+
+    };
+    state.updateDeviceState = (device, state) => {
+        var updated = false;
+        console.log(state.knownDevices)
         for (var i = 0; i < state.knownDevices.length; i++) {
-            if (state.knownDevices[i].id == device.id) {
-                state.knownDevices[i] = device;
+            console.log(state.knownDevices[i])
+            if (state.knownDevices[i].id == device) {
+                console.log("///////UpdateKnow")
+                console.log(state.knownDevices[i])
                 updated = true;
-                callDeviceListeners(state.listeners.onDeviceUpdatedListeners, device);
+            } else {
+                console.log("not found")
             }
         }
-        if (!updated) {
-            state.knownDevices.push(device);
-            callDeviceListeners(state.listeners.onDeviceConnectedListeners, device);
-        }
+
     };
 
     function callDeviceListeners(listeners, device) {
@@ -60,12 +98,13 @@ module.exports.createServer = function(config) {
         }
     }
 
+
     state.pushMessage = a => {
         var rq = {
             "apikey": "111111111-1111-1111-1111-111111111111",
             "action": a.action,
             "deviceid": a.target,
-            "params": a.value,
+            "params": { "switches": [{ "outlet": parseInt(a.outlet), "switch": a.value.switch }] },
             "userAgent": "app",
             "sequence": Date.now().toString(),
             "ts": 0,
@@ -74,9 +113,17 @@ module.exports.createServer = function(config) {
         var r = JSON.stringify(rq);
         log.trace('REQ | WS | APP | ' + r);
         var device = state.getDeviceById(a.target);
+        var results = devicesDb.findOne({ 'device': a.target });
+        results.state[a.outlet] = { "outlet": parseInt(a.outlet), "switch": a.value.switch }
+        devicesDb.update(results);
+        console.log(results)
         if (!device.messages) device.messages = [];
+        //device.state[a.outlet] = { "outlet": parseInt(a.outlet), "switch": a.value.switch }
+
         device.messages.push(rq);
         device.conn.sendText(r);
+        state.updateKnownDevice(a.target)
+
     };
 
     function addConnectionIsAliveCheck(device) {
@@ -272,41 +319,49 @@ module.exports.createServer = function(config) {
     return {
         //currently all known devices are returned with a hint if they are currently connected
         getConnectedDevices: () => {
-            return state.knownDevices.map(x => {
-                return { id: x.id, state: x.state, model: x.model, kind: x.kind, version: x.version, isConnected: (typeof x.conn !== 'undefined'), isAlive: x.isAlive, rawMessageRegister: x.rawMessageRegister, rawMessageLastUpdate: x.rawMessageLastUpdate }
-            });
-        },
+            
 
+            return devicesDb.find();
+        },
         getDeviceState: (deviceId) => {
-            var d = state.getDeviceById(deviceId);
-            if (!d || (typeof d.conn == 'undefined')) return "disconnected";
+            var d = devicesDb.findOne({ 'device': deviceId });
+
+
+
             return d.state;
+        },
+        getDeviceStateLoki: () => {
+            
+
+            return devicesDb.find();
         },
 
         turnOnDevice: (deviceId) => {
             var d = state.getDeviceById(deviceId);
-            if (!d || (typeof d.conn == 'undefined')) return "disconnected";
+
             state.pushMessage({ action: 'update', value: { switch: "on" }, target: deviceId });
             return "on";
         },
 
         turnOffDevice: (deviceId) => {
             var d = state.getDeviceById(deviceId);
-            if (!d || (typeof d.conn == 'undefined')) return "disconnected";
+            if (!d) return "disconnected";
             state.pushMessage({ action: 'update', value: { switch: "off" }, target: deviceId });
             return "off";
         },
         turnOnOutlet: (deviceId, outlet) => {
             var d = state.getDeviceById(deviceId);
-            if (!d || (typeof d.conn == 'undefined')) return "disconnected";
+            //if (!d) return "disconnected";
             state.pushMessage({ action: 'update', value: { switch: "on" }, outlet: outlet, target: deviceId });
             return "on";
         },
         turnOffOutlet: (deviceId, outlet) => {
             var d = state.getDeviceById(deviceId);
-            if (!d || (typeof d.conn == 'undefined')) return "disconnected";
+            //if (!d) return "disconnected";
+            //if (!d || (typeof d.isConnected == 'undefined')) return "disconnected";
             state.pushMessage({ action: 'update', value: { switch: "off" }, outlet: outlet, target: deviceId });
-            return "on";
+
+            return "off";
         },
         onOrOffByUid: (uid, action) => {
             let cnf = []

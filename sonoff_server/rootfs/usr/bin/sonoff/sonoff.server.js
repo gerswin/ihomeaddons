@@ -6,13 +6,13 @@ var server = express();
 var bodyParser = require('body-parser')
 var http = require('http');
 
-const configFile = '/config/sonoff.config.json'
-const deviceFile = '/config/sonoff.devices.json'
-const devicesHaFile = '/config/sonoff.ha.json'
+// const configFile = '/config/sonoff.config.json'
+// const deviceFile = '/config/sonoff.devices.json'
+// const devicesHaFile = '/config/sonoff.ha.json'
 
-// const configFile = './sonoff.config.json'
-// const deviceFile = './sonoff.devices.json'
-// const devicesHaFile = './sonoff.ha.json'
+const configFile = './sonoff.config.json'
+const deviceFile = './sonoff.devices.json'
+const devicesHaFile = './sonoff.ha.json'
 var config;
 try {
     config = JSON.parse(fs.readFileSync(path.resolve(__dirname, configFile)));
@@ -24,7 +24,7 @@ try {
 }
 
 
-
+var cache = {}
 config.logger = {
     log: console.log,
     warn: console.warn,
@@ -65,7 +65,7 @@ server.get('/devices/:deviceId/status', function(req, res) {
     log.log('GET | %s | %s ', req.method, req.url);
 
     var d = devices.getDeviceState(req.params.deviceId);
-
+    console.log(d)
     if (!d || d == "disconnected") {
         res.status(404).send('Sonoff device ' + req.params.deviceId + ' not found');
     } else {
@@ -77,7 +77,7 @@ server.get('/devices/:deviceId/status', function(req, res) {
 server.get('/devices/:deviceId/:state', function(req, res) {
     log.log('GET | %s | %s ', req.method, req.url);
     var d = devices.getDeviceState(req.params.deviceId);
-
+    
     if (!d || d == "disconnected") {
         res.status(404).send('Sonoff device ' + req.params.deviceId + ' not found');
     } else {
@@ -165,7 +165,7 @@ server.get('/genstatic', function(req, res) {
 server.get('/devices/:deviceId/:outlet/:state', function(req, res) {
     log.log('GET | %s | %s ', req.method, req.url);
     var d = devices.getDeviceState(req.params.deviceId);
-    var outlet = devices.getDeviceState(req.params.outlet);
+    var outlet = req.params.outlet;
     if (!d || d == "disconnected") {
         res.status(404).send('Sonoff device ' + req.params.deviceId + ' not found');
     } else {
@@ -195,12 +195,22 @@ server.get('/hadevices', function(req, res) {
         var configDevices = JSON.parse(fs.readFileSync(deviceFile))
         var dev = devices.getConnectedDevices()
         dev.forEach(function(item) {
-            if (item.id in configDevices) {
-                configDevices[item.id].forEach(function(i, idx) {
-                    i['state'] = item.state[idx].switch == 'on' ? true : false
-                    ind = ind + 1
-                    i['intID'] = ind
-                    cnf.push(i)
+            if (item.device in configDevices) {
+                configDevices[item.device].forEach(function(i, idx) {
+                    console.log(idx)
+                    console.log(item)
+                    try {
+                        i['state'] = (item.state[idx].switch == 'on' ? true : false)
+                        ind = ind + 1
+                        i['intID'] = ind
+                        cnf.push(i)
+                    } catch (error) {
+                        throw error
+                        // expected output: SyntaxError: unterminated string literal
+                        // Note - error messages will vary depending on browser
+                    }
+
+
                 })
             }
         })
@@ -225,8 +235,8 @@ server.get('/status/:uid', function(req, res) {
         var configDevices = JSON.parse(fs.readFileSync(deviceFile))
         var dev = devices.getConnectedDevices()
         dev.forEach(function(item) {
-            if (item.id in configDevices) {
-                configDevices[item.id].forEach(function(i, idx) {
+            if (item.device in configDevices) {
+                configDevices[item.device].forEach(function(i, idx) {
                     i['state'] = item.state[idx].switch == 'on' ? true : false
                     if (i.uid == req.params.uid) {
                         cnf.push(i)
@@ -242,4 +252,7 @@ server.get('/status/:uid', function(req, res) {
         res.json({ "status": false, error: error }); // echo the result back
 
     }
+});
+server.get('/loki', function(req, res) {
+    res.json(devices.getDeviceStateLoki())
 });
