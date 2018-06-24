@@ -192,7 +192,7 @@
 
                     response.data.forEach(function(item) {
                         that.devices.push(item)
-                        that.options.push({ value: item.id, text: item.id })
+                        that.options.push({ value: item.device, text: item.device })
                     })
                 })
                 .catch(function(error) {
