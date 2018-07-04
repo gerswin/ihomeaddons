@@ -6,13 +6,13 @@ var server = express();
 var bodyParser = require('body-parser')
 var http = require('http');
 
-// const configFile = '/config/sonoff.config.json'
-// const deviceFile = '/config/sonoff.devices.json'
-// const devicesHaFile = '/config/sonoff.ha.json'
+const configFile = '/config/sonoff.config.json'
+const deviceFile = '/config/sonoff.devices.json'
+const devicesHaFile = '/config/sonoff.ha.json'
 
-const configFile = './sonoff.config.json'
-const deviceFile = './sonoff.devices.json'
-const devicesHaFile = './sonoff.ha.json'
+//const configFile = './sonoff.config.json'
+//const deviceFile = './sonoff.devices.json'
+//const devicesHaFile = './sonoff.ha.json'
 var config;
 try {
     config = JSON.parse(fs.readFileSync(path.resolve(__dirname, configFile)));
