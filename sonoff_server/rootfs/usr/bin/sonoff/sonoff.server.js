@@ -6,13 +6,13 @@ var server = express();
 var bodyParser = require('body-parser')
 var http = require('http');
 
-const configFile = '/config/sonoff.config.json'
-const deviceFile = '/config/sonoff.devices.json'
-const devicesHaFile = '/config/sonoff.ha.json'
+// const configFile = '/config/sonoff.config.json'
+// const deviceFile = '/config/sonoff.devices.json'
+// const devicesHaFile = '/config/sonoff.ha.json'
 
-// const configFile = './sonoff.config.json'
-// const deviceFile = './sonoff.devices.json'
-// const devicesHaFile = './sonoff.ha.json'
+const configFile = './sonoff.config.json'
+const deviceFile = './sonoff.devices.json'
+const devicesHaFile = './sonoff.ha.json'
 var config;
 try {
     config = JSON.parse(fs.readFileSync(path.resolve(__dirname, configFile)));
@@ -134,11 +134,14 @@ server.post('/savecnf', function(req, res) {
 
 server.get('/genstatic', function(req, res) {
     ind = 1
+    console.log("gg")
     try {
         let cnf = []
         var configDevices = JSON.parse(fs.readFileSync(deviceFile))
         var dev = devices.getConnectedDevices()
-        dev.forEach(function(item) {
+        console.log(configDevices)
+        configDevices.forEach(function(item) {
+            console.log(item)
             if (item.id in configDevices) {
                 configDevices[item.id].forEach(function(i, idx) {
                     i['state'] = item.state[idx].switch == 'on' ? true : false
@@ -148,13 +151,13 @@ server.get('/genstatic', function(req, res) {
                 })
             }
         })
-
         fs.writeFile(devicesHaFile, JSON.stringify(cnf), (err) => {
             // throws an error, you could also catch it here
             if (err) throw err;
         });
         res.json(cnf) // echo the result back
     } catch (error) {
+        throw error;
         console.log(error);
         res.json({ status: false, error: error }) // echo the result back
     }

@@ -169,7 +169,6 @@
                 this.config.slice(0, this.selected).forEach(function(item, index) {
                     item['device'] = that.selectDevice
                     item['uid'] = that.guid()
-                    item['type'] = dev.type
                     ds.push(item)
                 });
                 t[this.selectDevice] = ds

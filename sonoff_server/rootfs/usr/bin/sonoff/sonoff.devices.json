@@ -1,0 +1,338 @@
+{
+    "1000250394": [
+    {
+        "name": "Huesped Arriba",
+        "way": "up",
+        "service": "Window",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "1000250394",
+        "uid": "2e047af0f026"
+    },
+    {
+        "name": "Huesped Abajo",
+        "way": "down",
+
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "1000250394",
+        "service": "Window",
+        "uid": "b90ac18e1bae"
+    }],
+    "1000251832": [
+    {
+        "name": "Sala 3 Arriba",
+        "way": "up",
+        "service": "Window",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "1000251832",
+        "uid": "65c97281f93f"
+    },
+    {
+        "name": "Sala 3 Abajo",
+        "way": "down",
+
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "1000251832",
+        "service": "Window",
+        "uid": "768dfa9f376d"
+    }],
+    "10002103e8": [
+    {
+        "name": "Terraza",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "10002103e8",
+        "uid": "621407dbd76b"
+    },
+    {
+        "name": "Nicho Spa",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "10002103e8",
+        "service": "Lightbulb",
+        "uid": "624fb2f8d4fc"
+    },
+    {
+        "name": "Spa",
+        "type": "sonoff",
+        "outlet": 2,
+        "state": "off",
+        "device": "10002103e8",
+        "service": "Lightbulb",
+        "uid": "6d9e28aa309b"
+    }],
+    "10002105a3": [
+    {
+        "name": "Mueble ",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "10002105a3",
+        "uid": "5680b16b90fb"
+    },
+    {
+        "name": "Cocina",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "10002105a3",
+        "service": "Lightbulb",
+        "uid": "fb585e121a8b"
+    },
+    {
+        "name": "Barra",
+        "type": "sonoff",
+        "outlet": 2,
+        "state": "off",
+        "device": "10002105a3",
+        "service": "Lightbulb",
+        "uid": "047446d344da"
+    }],
+    "100020d0eb": [
+    {
+        "name": "Bosque",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100020d0eb",
+        "uid": "ec71ccf4e39e"
+    },
+    {
+        "name": "Piedra",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100020d0eb",
+        "service": "Lightbulb",
+        "uid": "506872d3fe56"
+    }],
+    "100020d633": [
+    {
+        "name": "Huesped Baño",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100020d633",
+        "uid": "bfd5dbb5d06b"
+    },
+    {
+        "name": "Huesped Habitacion",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100020d633",
+        "service": "Lightbulb",
+        "uid": "3b9e04f47b0b"
+    }],
+    "100020e3ee": [
+    {
+        "name": "Lampara Betty",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100020e3ee",
+        "uid": "06bb407f780b"
+    },
+    {
+        "name": "Nicho Betty",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100020e3ee",
+        "service": "Lightbulb",
+        "uid": "a135bfa28d2e"
+    }],
+    "100020eeb6": [
+    {
+        "name": "Estudio",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100020eeb6",
+        "uid": "d5eae00b2776"
+    },
+    {
+        "name": "Estudio Afuera",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100020eeb6",
+        "service": "Lightbulb",
+        "uid": "630a31c7ff85"
+    }],
+    "100020da5f": [
+    {
+        "name": "Reflector Betty",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100020da5f",
+        "uid": "899f0d8cd761"
+    },
+    {
+        "name": "Afuera Betty",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100020da5f",
+        "service": "Lightbulb",
+        "uid": "9065b9386102"
+    }],
+    "100020cd61": [
+    {
+        "name": "Nicho Comedor",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100020cd61",
+        "uid": "242c7bf7e157"
+    }],
+    "100013a6fc": [
+    {
+        "name": "Habitacion Betty",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100013a6fc",
+        "uid": "a1c6b1ef6fa0"
+    }],
+    "1000253f15": [
+    {
+        "name": "Abajo Betty",
+        "way": "down",
+        "service": "Window",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "1000253f15",
+        "uid": "2454a32f208f"
+    },
+    {
+        "name": "Arriba Betty",
+        "way": "up",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "1000253f15",
+        "service": "Window",
+        "uid": "2d0861ee25b1"
+    }],
+    "100020fbfc": [
+    {
+        "name": "Reflector Lago",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100020fbfc",
+        "uid": "82a265bdc0c4"
+    },
+    {
+        "name": "Sala",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100020fbfc",
+        "service": "Lightbulb",
+        "uid": "9bcad2b3c53e"
+    },
+    {
+        "name": "Terraza",
+        "type": "sonoff",
+        "outlet": 2,
+        "state": "off",
+        "device": "100020fbfc",
+        "service": "Lightbulb",
+        "uid": "9b507099ce70"
+    }],
+    "100013a702": [
+    {
+        "name": "Nicho Mueble",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100013a702",
+        "uid": "3c4c6db9edd3"
+    }],
+    "100020cf24": [
+    {
+        "name": "Baño Betty",
+        "service": "Lightbulb",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100020cf24",
+        "uid": "cf49407766be"
+    },
+    {
+        "name": "Baño Betty",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100020cf24",
+        "service": "Lightbulb",
+        "uid": "b687f2264991"
+    }],
+    "100025034f": [
+    {
+        "name": "Sala 1 Arriba",
+        "way": "up",
+        "service": "Window",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100025034f",
+        "uid": "a08cb7303ebb"
+    },
+    {
+        "name": "Sala 1 Abajo",
+        "way": "down",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100025034f",
+        "service": "Window",
+        "uid": "d72a7dab0c31"
+    }],
+    "100025117c": [
+    {
+        "name": "Sala 2 Abajo",
+        "way": "down",
+
+        "service": "Window",
+        "type": "sonoff",
+        "outlet": 0,
+        "state": "off",
+        "device": "100025117c",
+        "uid": "98a1e7ba9f84"
+    },
+    {
+        "name": "Sala 2 Arriba",
+        "way": "up",
+        "type": "sonoff",
+        "outlet": 1,
+        "state": "off",
+        "device": "100025117c",
+        "service": "Window",
+        "uid": "c38f589ec6fe"
+    }]
+}
