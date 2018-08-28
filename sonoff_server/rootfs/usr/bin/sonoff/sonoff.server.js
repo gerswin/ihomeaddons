@@ -45,7 +45,7 @@ if (process.env.SERVER_IP !== undefined)
 
 const log = config.logger;
 
-// call sonoff server for device handling 
+// call sonoff server for device handling
 var devices = sonoffServer.createServer(config);
 
 // Register body-parser
@@ -77,7 +77,7 @@ server.get('/devices/:deviceId/status', function(req, res) {
 server.get('/devices/:deviceId/:state', function(req, res) {
     log.log('GET | %s | %s ', req.method, req.url);
     var d = devices.getDeviceState(req.params.deviceId);
-    
+
     if (!d || d == "disconnected") {
         res.status(404).send('Sonoff device ' + req.params.deviceId + ' not found');
     } else {
@@ -134,37 +134,44 @@ server.post('/savecnf', function(req, res) {
 
 server.get('/genstatic', function(req, res) {
     ind = 1
-    console.log("gg")
     try {
         let cnf = []
         var configDevices = JSON.parse(fs.readFileSync(deviceFile))
         var dev = devices.getConnectedDevices()
-        console.log(configDevices)
-        configDevices.forEach(function(item) {
-            console.log(item)
-            if (item.id in configDevices) {
-                configDevices[item.id].forEach(function(i, idx) {
-                    i['state'] = item.state[idx].switch == 'on' ? true : false
-                    ind = ind + 1
-                    i['intID'] = ind
-                    cnf.push(i)
+        dev.forEach(function(item) {
+            if (item.device in configDevices) {
+                configDevices[item.device].forEach(function(i, idx) {
+                    console.log(idx)
+                    console.log(item)
+                    try {
+                        i['state'] = (item.state[idx].switch == 'on' ? true : false)
+                        ind = ind + 1
+                        i['intID'] = ind
+                        cnf.push(i)
+                    } catch (error) {
+                        throw error
+                        // expected output: SyntaxError: unterminated string literal
+                        // Note - error messages will vary depending on browser
+                    }
+
+
                 })
             }
         })
+
         fs.writeFile(devicesHaFile, JSON.stringify(cnf), (err) => {
             // throws an error, you could also catch it here
             if (err) throw err;
         });
         res.json(cnf) // echo the result back
     } catch (error) {
-        throw error;
-        console.log(error);
+        throw error
         res.json({ status: false, error: error }) // echo the result back
     }
-});
+})
 
 
-//switch on or off based on device outlet 
+//switch on or off based on device outlet
 server.get('/devices/:deviceId/:outlet/:state', function(req, res) {
     log.log('GET | %s | %s ', req.method, req.url);
     var d = devices.getDeviceState(req.params.deviceId);
@@ -258,4 +265,11 @@ server.get('/status/:uid', function(req, res) {
 });
 server.get('/loki', function(req, res) {
     res.json(devices.getDeviceStateLoki())
+});
+
+server.get('/ipadd', function(req, res) {
+    require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+        console.log('addr: '+add);
+        res.json({ip:add})
+    })
 });
