@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c75c7fe8-6dad-4ee3-bb86-579d3ee0fd6a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sonoff_server/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/sonoff_server/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/sonoff.server.js" beforeDir="false" afterPath="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/sonoff.server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/static/index.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,28 +27,33 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="html" value="2" />
           <entry key="js" value="1" />
-          <entry key="json" value="2" />
+          <entry key="json" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JSON" value="2" />
+          <entry key="HTML" value="2" />
+          <entry key="JSON" value="4" />
           <entry key="JavaScript" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="18" />
-          <entry key="json" value="1" />
+          <entry key="html" value="39" />
+          <entry key="js" value="65" />
+          <entry key="json" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="18" />
+          <entry key="HTML" value="39" />
+          <entry key="JSON" value="11" />
+          <entry key="JavaScript" value="65" />
         </counts>
       </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts" />
     </session>
   </component>
   <component name="FileEditorManager">
@@ -53,8 +61,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/sonoff.server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4536">
-              <caret line="275" lean-forward="true" selection-start-line="275" selection-end-line="275" />
+            <state relative-caret-position="373">
+              <caret line="300" column="3" lean-forward="true" selection-start-line="300" selection-start-column="3" selection-end-line="300" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/static/devices.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="82">
+              <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/static/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="208">
+              <caret line="207" column="63" selection-start-line="207" selection-start-column="54" selection-end-line="207" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -73,11 +99,28 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sonoff_server/build.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>hadevices</find>
+      <find>save</find>
+      <find>add</find>
+      <find>Sono</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -86,7 +129,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/package.json" />
         <option value="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/sonoff.server.js" />
+        <option value="$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/static/index.html" />
         <option value="$PROJECT_DIR$/sonoff_server/config.json" />
       </list>
     </option>
@@ -124,6 +169,46 @@
               <item name="ihomeaddons" type="462c0819:PsiDirectoryNode" />
               <item name="sonoff_server" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ihomeaddons" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ihomeaddons" type="462c0819:PsiDirectoryNode" />
+              <item name="sonoff_server" type="462c0819:PsiDirectoryNode" />
+              <item name="rootfs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ihomeaddons" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ihomeaddons" type="462c0819:PsiDirectoryNode" />
+              <item name="sonoff_server" type="462c0819:PsiDirectoryNode" />
+              <item name="rootfs" type="462c0819:PsiDirectoryNode" />
+              <item name="usr" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ihomeaddons" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ihomeaddons" type="462c0819:PsiDirectoryNode" />
+              <item name="sonoff_server" type="462c0819:PsiDirectoryNode" />
+              <item name="rootfs" type="462c0819:PsiDirectoryNode" />
+              <item name="usr" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ihomeaddons" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ihomeaddons" type="462c0819:PsiDirectoryNode" />
+              <item name="sonoff_server" type="462c0819:PsiDirectoryNode" />
+              <item name="rootfs" type="462c0819:PsiDirectoryNode" />
+              <item name="usr" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="sonoff" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ihomeaddons" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ihomeaddons" type="462c0819:PsiDirectoryNode" />
+              <item name="sonoff_server" type="462c0819:PsiDirectoryNode" />
+              <item name="rootfs" type="462c0819:PsiDirectoryNode" />
+              <item name="usr" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="sonoff" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -136,6 +221,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$USER_HOME$/.nvm/versions/node/v10.6.0/lib/node_modules/prettier" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
@@ -161,12 +247,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1535465034930</updated>
-      <workItem from="1535465037229" duration="1002000" />
+      <workItem from="1535465037229" duration="2161000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1002000" />
+    <option name="totallyTimeSpent" value="2161000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="830" extended-state="0" />
@@ -198,14 +284,38 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/sonoff.server.js">
+    <entry file="file://$PROJECT_DIR$/repository.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4536">
-          <caret line="275" lean-forward="true" selection-start-line="275" selection-end-line="275" />
+        <state relative-caret-position="336">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/repository.json">
+    <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/sonoff.server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="300" column="3" lean-forward="true" selection-start-line="300" selection-start-column="3" selection-end-line="300" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/static/devices.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="82">
+          <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sonoff_server/rootfs/usr/bin/sonoff/static/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="207" column="63" selection-start-line="207" selection-start-column="54" selection-end-line="207" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sonoff_server/build.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/sonoff_server/config.json">

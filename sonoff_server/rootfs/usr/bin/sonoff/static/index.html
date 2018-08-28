@@ -68,8 +68,7 @@
                     <br>
                 <b-card title="Device Info" sub-title="">
                     <p class="card-text">
-
-                        <b-form-group label="How many channels" v-show="selectDevice != 'mqtt'">
+                        <b-form-group label="More channels?" v-show="selectDevice != 'mqtt'">
                             <b-form-radio-group id="radios2" v-model="selected" name="chNum">
                                 <b-form-radio value="2">2 CH</b-form-radio>
                                 <b-form-radio value="3">3 CH</b-form-radio>
@@ -89,7 +88,7 @@
                                     <b-form-radio value="Switch">Swich</b-form-radio>
                                     <b-form-radio value="GarageDoorOpener">Garage Door</b-form-radio>
                                     <b-form-radio value="Window">Window Cover</b-form-radio>
-                                </b-form-radio-group>                        
+                                </b-form-radio-group>
                                 <br>
                             </b-form-group>
                             </b-form-group>
@@ -206,7 +205,7 @@
               <br>
               <br>
               <b-container>
-            <b-jumbotron header="Sonoff Server" lead="config sonoff devices">
+            <b-jumbotron header="Sonoff Server" lead="Available devices">
             </b-jumbotron>
             <div>
                 <b-card v-for="(device, index) in devices" :key="devices.name" :title="device.name" sub-title="">

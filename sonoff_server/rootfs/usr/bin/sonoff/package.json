@@ -13,7 +13,8 @@
     "nodejs-websocket": "^1.7.1",
     "request": "^2.87.0",
     "url": "^0.11.0",
-    "wifi-control": "^2.0.1"
+    "wifi-control": "^2.0.1",
+    "ip":"*"
   },
   "repository": "github:mdopp/simple-sonoff-server",
   "devDependencies": {},

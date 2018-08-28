@@ -5,6 +5,7 @@ var express = require('express');
 var server = express();
 var bodyParser = require('body-parser')
 var http = require('http');
+var ip = require('ip');
 
 const configFile = '/config/sonoff.config.json'
 const deviceFile = '/config/sonoff.devices.json'
@@ -117,7 +118,38 @@ server.get('/devices', function(req, res) {
 
 
 /// HA Routines
+function getStatic(){
+    ind = 1
+    try {
+        let cnf = []
+        var configDevices = JSON.parse(fs.readFileSync(deviceFile))
+        var dev = devices.getConnectedDevices()
+        dev.forEach(function(item) {
+            if (item.device in configDevices) {
+                configDevices[item.device].forEach(function(i, idx) {
+                    console.log(idx)
+                    console.log(item)
+                    try {
+                        i['state'] = (item.state[idx].switch == 'on' ? true : false)
+                        ind = ind + 1
+                        i['intID'] = ind
+                        cnf.push(i)
+                    } catch (error) {
+                        throw error
+                        // expected output: SyntaxError: unterminated string literal
+                        // Note - error messages will vary depending on browser
+                    }
 
+
+                })
+            }
+        })
+
+        fs.writeFile(devicesHaFile, JSON.stringify(cnf), (err) => {
+            // throws an error, you could also catch it here
+            if (err) throw err;
+        });
+}
 // save name for every outlet
 server.post('/savecnf', function(req, res) {
     var configDevices = JSON.parse(fs.readFileSync(deviceFile));
@@ -127,6 +159,7 @@ server.post('/savecnf', function(req, res) {
     });
     fs.writeFile(deviceFile, JSON.stringify(configDevices), (err) => {
         // throws an error, you could also catch it here
+        getStatic();
         if (err) throw err;
     });
     res.send(req.body); // echo the result back
@@ -268,8 +301,6 @@ server.get('/loki', function(req, res) {
 });
 
 server.get('/ipadd', function(req, res) {
-    require('dns').lookup(require('os').hostname(), function (err, add, fam) {
-        console.log('addr: '+add);
-        res.json({ip:add})
-    })
+    var ipadd = ip.toString(new Buffer(ip.address() )) // 127.0.0.1
+    res.json({ip:ipadd});
 });
