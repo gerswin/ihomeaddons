@@ -149,6 +149,9 @@ function getStatic(){
             // throws an error, you could also catch it here
             if (err) throw err;
         });
+    } catch (error) {
+        throw error
+    }
 }
 // save name for every outlet
 server.post('/savecnf', function(req, res) {
