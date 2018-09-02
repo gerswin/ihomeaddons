@@ -241,9 +241,13 @@ module.exports.createServer = function(config) {
                             device.mac = data.params.staMac
                             device.state = ((data.params.switch != undefined) ? [{ "switch": data.params.switch, "outlet": 0 }] : data.params.switches)
                             if ((data.params.currentTemperature) != undefined) {
-                                device.currentTemperature= data.params.currentTemperature;
-                                device.currentHumidity=data.params.currentHumidity;
-                            };
+                                console.log("unde", data.params.currentTemperature)
+
+                                device.currentTemperature = data.params.currentTemperature;
+                                device.currentHumidity = data.params.currentHumidity;
+                            } else {
+                                console.log("notunde", data.params.currentTemperature)
+                            }
                             device.rawMessageLastUpdate = data;
                             device.rawMessageLastUpdate.timestamp = Date.now();
                             state.updateKnownDevice(device);
