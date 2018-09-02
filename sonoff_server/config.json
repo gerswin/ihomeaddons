@@ -4,8 +4,6 @@
     "slug": "sonoff-server",
     "description": "Sonoff Server Hass.IO",
     "url": "https://github.com/gerswin/ihomeaddons",
-      "webui": "[PROTO:ssl]://[HOST]:[PORT:1080]",
-
     "startup": "system",
     "arch": [
         "aarch64",
