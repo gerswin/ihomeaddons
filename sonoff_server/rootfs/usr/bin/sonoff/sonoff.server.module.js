@@ -240,6 +240,10 @@ module.exports.createServer = function(config) {
                             device.rssi = data.params.rssi
                             device.mac = data.params.staMac
                             device.state = ((data.params.switch != undefined) ? [{ "switch": data.params.switch, "outlet": 0 }] : data.params.switches)
+                            if ((data.params.currentTemperature) != undefined) {
+                                device.currentTemperature= data.params.currentTemperature;
+                                device.currentHumidity=data.params.currentHumidity;
+                            };
                             device.rawMessageLastUpdate = data;
                             device.rawMessageLastUpdate.timestamp = Date.now();
                             state.updateKnownDevice(device);
@@ -319,7 +323,7 @@ module.exports.createServer = function(config) {
     return {
         //currently all known devices are returned with a hint if they are currently connected
         getConnectedDevices: () => {
-            
+
 
             return devicesDb.find();
         },
@@ -331,7 +335,7 @@ module.exports.createServer = function(config) {
             return d.state;
         },
         getDeviceStateLoki: () => {
-            
+
 
             return devicesDb.find();
         },
