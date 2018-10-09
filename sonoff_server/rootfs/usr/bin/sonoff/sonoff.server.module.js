@@ -175,8 +175,8 @@ module.exports.createServer = function(config) {
         res.json({
             "error": 0,
             "reason": "ok",
-            "IP": configFile.server.IP,
-            "port": configFile.server.websocketPort
+            "IP": config.server.IP,
+            "port": config.server.websocketPort
         });
     });
 
