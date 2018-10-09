@@ -11,9 +11,9 @@ const configFile = '/config/sonoff.config.json'
 const deviceFile = '/config/sonoff.devices.json'
 const devicesHaFile = '/config/sonoff.ha.json'
 
-//const configFile = './sonoff.config.json'
-//const deviceFile = './sonoff.devices.json'
-//const devicesHaFile = './sonoff.ha.json'
+// const configFile = './sonoff.config.json'
+// const deviceFile = './sonoff.devices.json'
+// const devicesHaFile = './sonoff.ha.json'
 var config;
 try {
     config = JSON.parse(fs.readFileSync(path.resolve(__dirname, configFile)));
@@ -274,6 +274,16 @@ server.get('/status/:uid/:action', function(req, res) {
 
     res.json({ "state": req.params.action }); // echo the result back
 });
+    server.post('/dispatch/device', function(req, res) {
+        log.log('REQ | %s | %s ', req.method, req.url);
+        log.trace('REQ | %s', JSON.stringify(req.body));
+        res.json({
+            "error": 0,
+            "reason": "ok",
+            "IP": config.server.IP,
+            "port": config.server.websocketPort
+        });
+    });
 server.get('/status/:uid', function(req, res) {
     //conmmute(req.params.uid,req.params.action)
     try {
