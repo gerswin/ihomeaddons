@@ -21,7 +21,6 @@ RUN \
     && npm -g install \
         node-gyp \
         pm2 \
-        
     \
     && npm install \
     \
@@ -29,8 +28,6 @@ RUN \
 
 # Copy root filesystem
 COPY rootfs /
-
-
 
 # Scrip to run after startup
 CMD [ "/usr/bin/run.sh" ]

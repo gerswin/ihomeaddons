@@ -1,2 +1,3 @@
 haddev/
 sonoff_server/rootfs/usr/bin/sonoff/node_modules/
+.DS_Store
